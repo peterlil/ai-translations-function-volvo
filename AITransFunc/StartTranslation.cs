@@ -28,6 +28,9 @@ namespace AITransFunc
             string translated_url = req.Headers["translated_url"];
             string preprocess_url = req.Headers["preprocess_url"];
 
+            // Read the header as_html and if it is not present, set it to false
+            bool as_html = req.Headers["as_html"] == "true";
+
             // Sanity checks here to ensure that the URLs are valid
             if (string.IsNullOrEmpty(translated_url) || string.IsNullOrEmpty(preprocess_url))
             {
@@ -45,7 +48,13 @@ namespace AITransFunc
             client = new TextTranslationClient(new DefaultAzureCredential());
 
             // Translate the content from English to Swedish
-            var translationResult = await client.TranslateAsync("sv", content, "en");
+            var translationResult = await client.TranslateAsync(
+                new List<string> { "sv" },
+                new List<string> { content },
+                "en",
+                textType: as_html ? TextType.Html : TextType.Plain
+            );
+            //var translationResult = await client.TranslateAsync("sv", content, "en", textType: TextType.Html);
             string translatedContent = translationResult.Value[0].Translations[0].Text;
 
             // Store the translated content into another blob
