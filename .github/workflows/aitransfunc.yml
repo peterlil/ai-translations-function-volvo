@@ -5,6 +5,7 @@ on:
     - main
 env:
   AZURE_FUNCTIONAPP_NAME: aitransfunc
+  AZURE_FUNCTIONAPP_SRC_FOLDER: AITransFunc
   AZURE_FUNCTIONAPP_PACKAGE_PATH: ./published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
@@ -24,11 +25,11 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION_INPROC }}
     - name: Restore
-      run: dotnet restore "${{ env.WORKING_DIRECTORY }}/${{ env.AZURE_FUNCTIONAPP_NAME }}"
+      run: dotnet restore "${{ env.WORKING_DIRECTORY }}/${{ env.AZURE_FUNCTIONAPP_SRC_FOLDER }}"
     - name: Build
-      run: dotnet build "${{ env.WORKING_DIRECTORY }}/${{ env.AZURE_FUNCTIONAPP_NAME }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+      run: dotnet build "${{ env.WORKING_DIRECTORY }}/${{ env.AZURE_FUNCTIONAPP_SRC_FOLDER }}" --configuration ${{ env.CONFIGURATION }} --no-restore
     - name: Publish
-      run: dotnet publish "${{ env.WORKING_DIRECTORY }}/${{ env.AZURE_FUNCTIONAPP_NAME }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}"
+      run: dotnet publish "${{ env.WORKING_DIRECTORY }}/${{ env.AZURE_FUNCTIONAPP_SRC_FOLDER }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}"
     - name: Publish Artifacts
       uses: actions/upload-artifact@v3
       with:
