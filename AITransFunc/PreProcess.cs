@@ -30,7 +30,7 @@ namespace AITransFunc
             // Load the blob content into a string variable
             string content = await ReadBlob(source_url);
 
-            string regex = "(?<=<\\?Transl start [0-9]*\\?>)[\\w\\s\\d,.<>/()=_\"]*(?=<\\?Transl end\\?>)";
+            string regex = "(?<=<\\?Transl start \\d+\\?>)(.*?)(?=<\\?Transl end\\?>)";
             var matches = Regex.Matches(content, regex);
 
             StringBuilder newContent = new StringBuilder();

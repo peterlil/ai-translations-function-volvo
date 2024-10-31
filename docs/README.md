@@ -10,3 +10,7 @@
 2 Add VS Code extensions:
   - Azure Functions
 
+Azurite: Start Blob Service
+
+
+dotnet add package Azure.AI.Translation.Text --version 1.0.0-beta.1

@@ -5,3 +5,34 @@
 POST http://localhost:7118/api/StartTranslation HTTP/1.1
 preprocess_url: https://povelfstorage.blob.core.windows.net/preprocessed/en-content-01.txt
 translated_url: https://povelfstorage.blob.core.windows.net/translated/sv-content-01.txt
+
+###
+
+POST http://localhost:7118/api/StartTranslation HTTP/1.1
+preprocess_url: https://povelfstorage.blob.core.windows.net/preprocessed/en-content-02.txt
+translated_url: https://povelfstorage.blob.core.windows.net/translated/sv-content-02.txt
+
+###
+
+POST http://localhost:7118/api/PreProcess HTTP/1.1
+source_url: https://povelfstorage.blob.core.windows.net/ftp/SWE181211515.xml
+preprocess_url: https://povelfstorage.blob.core.windows.net/preprocessed/SWE181211515.txt
+
+###
+
+POST https://aitransfunc.azurewebsites.net/api/PreProcess?code=9FVYUSNvVkTKui5_MaEWgfnvW9QfawnzzG8K7vKZcnBLAzFuc-YHUQ%3D%3D HTTP/1.1
+source_url: https://povelfstorage.blob.core.windows.net/ftp/SWE181211515.xml
+preprocess_url: https://povelfstorage.blob.core.windows.net/preprocessed/SWE181211515.txt
+
+###
+
+POST https://aitransfunc.azurewebsites.net/api/StartTranslation?code=JBCPV1di1Cd93eImr8CPtv7kaD2DvF6lw0NyinaAWmICAzFupOZxug%3D%3D HTTP/1.1
+preprocess_url: https://povelfstorage.blob.core.windows.net/preprocessed/en-content-01.txt
+translated_url: https://povelfstorage.blob.core.windows.net/translated/sv-content-01.txt
+
+###
+
+POST https://aitransfunc.azurewebsites.net/api/StartTranslation?code=JBCPV1di1Cd93eImr8CPtv7kaD2DvF6lw0NyinaAWmICAzFupOZxug%3D%3D HTTP/1.1
+preprocess_url: https://povelfstorage.blob.core.windows.net/preprocessed/SWE181211515.txt
+translated_url: https://povelfstorage.blob.core.windows.net/translated/SWE181211515.txt
+
