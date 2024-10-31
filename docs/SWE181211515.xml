@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sb PUBLIC "-//Volvo Trucks//DTD SB30//EN" "sb30.dtd" [
+]>
+<sb company="vbc" docnr="181211515" id="SB181211515" model="%" sbno="01" style="sman" timelang="SWE" tspnr="89659599 " type="sb" vehicletype="bus" version="01" ihionumber="8000003695" sieinfotype="bulletin-sb" group="311" groupbase="FGRP " ihwork="--" ihseq="01">
+<frontm>
+<prolog><refgrp>311</refgrp>
+<title id="NODE0"><?Transl start 1?>Design and function<?Transl end?></title>
+<model>Batteries Sensor</model>
+<date month="2" year="2016"/></prolog>
+<preface>
+<r4 group="0000" sieinfotype="descrip-designfunc" sp="10" id="NODE1">
+<rtit id="NODE2"><?Transl start 2?>Battery news<?Transl end?></rtit>
+</r4>
+</preface>
+</frontm>
+<body>
+<design id="NODE3">
+<r3 group="311" sieinfotype="geninfo-news" id="NODE4">
+<r5 group="311" groupbase="FGRP " ihionumber="8000015815" ihseq="01" sieinfotype="geninfo-news" id="NODE5">
+<rtit id="NODE6">Batterier, nyheter</rtit>
+<p><?Transl start 3?>From 2024 week 21, there is an update on the battery sensor.<?Transl end?></p>
+<p><?Transl start 4?>The torque value for the sensors nut (M<hp2>6</hp2>) connection towards the batteries negative terminal is different depending on which sensor is installed<?Transl end?></p>
+<graphelem id="NODE7"><graphic graphicname="T3206281" res_width="2.92in" id="NODE8"/>
+</graphelem>
+<table id="NODE9">
+<tgroup cols="2">
+<colspec colname="col1"/>
+<colspec colname="col2"/>
+<tbody>
+<row>
+<entry nameend="col2" namest="col1"><?Transl start 5?><hp2>Tech data</hp2><?Transl end?></entry>
+</row>
+<row>
+<entry><?Transl start 6?>Sensor<?Transl end?></entry>
+<entry><?Transl start 7?>Torque value<?Transl end?></entry>
+</row>
+<row>
+<entry><?Transl start 8?>Sensor <hp2>(A)</hp2>, nut<?Transl end?></entry>
+<entry><?Transl start 9?><hp2>6</hp2> <symbol type="plus_minus_sign"/> <hp2>1.2</hp2> Nm<?Transl end?></entry>
+</row>
+<row>
+<entry><?Transl start 10?>Sensor <hp2>(B)</hp2>, nut<?Transl end?></entry>
+<entry><?Transl start 11?><hp2>4.5</hp2><symbol type="plus_minus_sign"/> <hp2>0.9</hp2> Nm<?Transl end?></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<p><?Transl start 12?>Compare the sensor installed on the truck to the illustrations and tighten the nut according to the tech data while installing the sensor.<?Transl end?></p>
+<graphelem id="NODE10"><graphic graphicname="T3206282" res_width="2.92in" id="NODE11"/>
+</graphelem>
+<p><?Transl start 13?>The torque for the ground cable nut (M<hp2>10</hp2>) installed to the battery sensor remains the same for both the sensors (circled in red for reference).<?Transl end?></p>
+<table id="NODE12">
+<tgroup cols="2">
+<colspec colname="col1"/>
+<colspec colname="col2"/>
+<tbody>
+<row>
+<entry nameend="col2" namest="col1"><?Transl start 14?><hp2>Tech data</hp2><?Transl end?></entry>
+</row>
+<row>
+<entry><?Transl start 15?>Ground cable, nut<?Transl end?></entry>
+<entry><?Transl start 16?><hp2>40</hp2><symbol type="plus_minus_sign"/> <hp2>8.0</hp2> Nm<?Transl end?></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</r5>
+</r3>
+</design>
+</body>
+</sb><?watermark SWE181211515-1721124993078?>
