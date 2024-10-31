@@ -5,7 +5,7 @@ on:
     branches:
     - main
 env:
-  AZURE_FUNCTIONAPP_NAME: aitransfunc
+  AZURE_FUNCTIONAPP_NAME: aitransfuncwin
   AZURE_FUNCTIONAPP_SRC_FOLDER: AITransFunc
   AZURE_FUNCTIONAPP_PACKAGE_PATH: ./published
   CONFIGURATION: Release
