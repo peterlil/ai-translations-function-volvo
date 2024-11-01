@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
 
 namespace AITransFunc
 {
@@ -31,7 +32,14 @@ namespace AITransFunc
             // Read the header as_html and if it is not present, set it to false
             bool as_html = req.Headers["as_html"] == "true";
 
-            // Sanity checks here to ensure that the URLs are valid
+            // Read the header tag_replacement to a string variable and if it's not present or an emppty string, set the variable to empty.
+            string tag_replacement = req.Headers["tag_replacement"];
+            if (string.IsNullOrEmpty(tag_replacement))
+            {
+                tag_replacement = string.Empty;
+            }
+
+            // Sanity checks to ensure that the URLs are valid
             if (string.IsNullOrEmpty(translated_url) || string.IsNullOrEmpty(preprocess_url))
             {
                 return new BadRequestObjectResult("translated_url and preprocess_url are required.");
@@ -42,8 +50,19 @@ namespace AITransFunc
 
             // Load the blob content into a string variable
             string content = await ReadBlob(preprocess_url);
+            _logger.LogInformation($"Content from preprocessed_url: {content}");
+
+            List<string> replacedTags = new List<string>();
+
+            if (!string.IsNullOrEmpty(tag_replacement))
+            {
+                _logger.LogInformation($"Tags will be replaced with {tag_replacement}.");
+                content = ReplaceXmlTags(content, tag_replacement, replacedTags);
+                _logger.LogInformation($"Content after replacing tags: {content}");
+            }
 
             TextTranslationClient client;
+            _logger.LogInformation("Creating TextTranslationClient");
             // Use system managed identity when deployed in Azure
             client = new TextTranslationClient(new DefaultAzureCredential());
 
@@ -54,8 +73,14 @@ namespace AITransFunc
                 "en",
                 textType: as_html ? TextType.Html : TextType.Plain
             );
-            //var translationResult = await client.TranslateAsync("sv", content, "en", textType: TextType.Html);
             string translatedContent = translationResult.Value[0].Translations[0].Text;
+            _logger.LogInformation($"Translated content: {translatedContent}");
+
+            if (!string.IsNullOrEmpty(tag_replacement))
+            {
+                translatedContent = RestoreXmlTags(translatedContent, tag_replacement, replacedTags);
+                _logger.LogInformation($"Translated content after restoring tags: {translatedContent}");
+            }
 
             // Store the translated content into another blob
             await StoreBlob(translated_url, translatedContent);
@@ -63,6 +88,8 @@ namespace AITransFunc
             _logger.LogInformation("C# HTTP trigger function processed a request.");
             return new OkObjectResult("Welcome to Azure Functions!");
         }
+        
+
 
         private async Task<string> ReadBlob(string url)
         {
@@ -99,6 +126,38 @@ namespace AITransFunc
             {
                 await blobClient.UploadAsync(stream, overwrite: true);
             }
+        }
+
+        private string ReplaceXmlTags(string content, string replaceValue, List<string> replacedTags)
+        {
+            string pattern = "<[^>]+>";
+            return Regex.Replace(content, pattern, match =>
+            {
+                replacedTags.Add(match.Value);
+                return replaceValue;
+            });
+        }
+
+        private string RestoreXmlTags(string content, string searchString, List<string> replacedTags)
+        {
+            foreach (var tag in replacedTags)
+            {
+                content = content.ReplaceFirst(searchString, tag);
+            }
+            return content;
+        }
+    }
+
+    public static class StringExtensions
+    {
+        public static string ReplaceFirst(this string text, string search, string replace)
+        {
+            int pos = text.IndexOf(search);
+            if (pos < 0)
+            {
+                return text;
+            }
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
     }
 }
