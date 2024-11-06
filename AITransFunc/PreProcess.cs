@@ -7,16 +7,20 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 using System.Text;
+using Microsoft.Extensions.Hosting;
 
 namespace AITransFunc
 {
     public class PreProcess
     {
         private readonly ILogger<PreProcess> _logger;
+        private readonly IHostEnvironment _env; // Inject IHostEnvironment
+        private readonly string _userAssignedClientId = "e13d6cb9-462e-4fa1-a60d-ee4710295e4b";
 
-        public PreProcess(ILogger<PreProcess> logger)
+        public PreProcess(ILogger<PreProcess> logger, IHostEnvironment env)
         {
             _logger = logger;
+            _env = env;
         }
 
         [Function("PreProcess")]
@@ -54,9 +58,21 @@ namespace AITransFunc
         private async Task<string> ReadBlob(string url)
         {
             string content = string.Empty;
+            BlobClient blobClient;
 
-            // Use system managed identity when deployed in Azure
-            BlobClient blobClient = new BlobClient(new Uri(url), new DefaultAzureCredential());
+            if (_env.IsDevelopment())
+            {
+                blobClient = new BlobClient(new Uri(url), new DefaultAzureCredential());
+            }
+            else
+            {
+                // Use user-assigned managed identity when deployed in Azure
+                var credentialOptions = new DefaultAzureCredentialOptions
+                {
+                    ManagedIdentityClientId = _userAssignedClientId
+                };
+                blobClient = new BlobClient(new Uri(url), new DefaultAzureCredential(credentialOptions));
+            }
 
             //Catch RequestFailedException
             try
@@ -78,8 +94,21 @@ namespace AITransFunc
 
         private async Task SaveBlob(string url, string content)
         {
-            // Use system managed identity when deployed in Azure
-            BlobClient blobClient = new BlobClient(new Uri(url), new DefaultAzureCredential());
+            BlobClient blobClient;
+
+            if (_env.IsDevelopment())
+            {
+                blobClient = new BlobClient(new Uri(url), new DefaultAzureCredential());
+            }
+            else
+            {
+                // Use user-assigned managed identity when deployed in Azure
+                var credentialOptions = new DefaultAzureCredentialOptions
+                {
+                    ManagedIdentityClientId = _userAssignedClientId
+                };
+                blobClient = new BlobClient(new Uri(url), new DefaultAzureCredential(credentialOptions));
+            }
 
             //Catch RequestFailedException
             try

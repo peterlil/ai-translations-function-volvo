@@ -47,6 +47,7 @@ POST http://localhost:7118/api/StartTranslation HTTP/1.1
 preprocess_url: https://povelfstorage.blob.core.windows.net/preprocessed/SWE182595500.txt
 translated_url: https://povelfstorage.blob.core.windows.net/translated/SWE182595500.txt
 tag_replacement: <#>
+as_html: true
 
 ###
 
@@ -66,7 +67,8 @@ tag_replacement: <#>
 POST https://aitransfunc.azurewebsites.net/api/StartTranslation?code=JBCPV1di1Cd93eImr8CPtv7kaD2DvF6lw0NyinaAWmICAzFupOZxug%3D%3D HTTP/1.1
 preprocess_url: https://povelfstorage.blob.core.windows.net/preprocessed/SWE181211515.txt
 translated_url: https://povelfstorage.blob.core.windows.net/translated/SWE181211515.txt
-tag_replacement: <#>
+tag_replacement: "<#>"
+as_html: true
 
 
 ###
